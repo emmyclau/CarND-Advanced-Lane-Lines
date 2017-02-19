@@ -83,6 +83,9 @@ Minv = cv2.getPerspectiveTransform(dst, src)
 
 
 ### Software pipeline to identify the lane boundaries 
+Now that we have calibrated a camera and find the perspective transform matrix to transform the road to bird's eye view, we are ready to create a software pipeline to identify the lane boundaries.
+
+
 #### Step 3: Apply a distortion correction to raw images
 
 1. Use cv2.undistort() method to correct raw images from the camera. 
