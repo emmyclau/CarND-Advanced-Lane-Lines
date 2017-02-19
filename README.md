@@ -97,34 +97,34 @@ Now that I calibrated a camera and found the perspective transform matrix to tra
 1. I converted the undistorted image to HLS color map
 2. Next, I used the S channel to find the color thresholded binary image 
 
-```
-s_channel_binary = s_channel_thresh(undist, thresh=(150, 255))    
-```
+    ```
+    s_channel_binary = s_channel_thresh(undist, thresh=(150, 255))    
+    ```
 3. Next, I used L channel to find the sobel gradient x and sobel gradient y thresholded binary image
 
-```    
-gradx = abs_sobel_thresh(l_channel, orient='x', sobel_kernel=ksize, thresh=(20, 100))
-grady = abs_sobel_thresh(l_channel, orient='y', sobel_kernel=ksize, thresh=(20, 100))
-```
+    ```    
+    gradx = abs_sobel_thresh(l_channel, orient='x', sobel_kernel=ksize, thresh=(20, 100))
+    grady = abs_sobel_thresh(l_channel, orient='y', sobel_kernel=ksize, thresh=(20, 100))
+    ```
 4. Used L channel to find the sobel magnitude and direction thresholded binary image 
 
-```
-mag_binary = mag_thresh(l_channel, sobel_kernel=ksize, mag_thresh=(40, 100))
-dir_binary = dir_threshold(l_channel, sobel_kernel=ksize, thresh=(0.7, 1.2))
-```
+    ```
+    mag_binary = mag_thresh(l_channel, sobel_kernel=ksize, mag_thresh=(40, 100))
+    dir_binary = dir_threshold(l_channel, sobel_kernel=ksize, thresh=(0.7, 1.2))
+    ```
 
 5. Combined the color, sobel gradients and direction to create the final thresholded binary image for lane detection 
 
-```
-combined_binary = np.zeros_like(s_channel_binary)
-combined_binary[(s_channel_binary == 1) | (gradx == 1) & (grady == 1) | (mag_binary == 1) & (dir_binary == 1)] = 1
-```
+    ```
+    combined_binary = np.zeros_like(s_channel_binary)
+    combined_binary[(s_channel_binary == 1) | (gradx == 1) & (grady == 1) | (mag_binary == 1) & (dir_binary == 1)] = 1
+    ```
 
 NOTE: I also set all pixels from 700 to 719 to 0 because that is the front of car and not part of the road to avoid sun reflections on the front of the car affects the lane detection.
 
-```
-combined_binary[700:,:] = 0
-```
+    ```
+    combined_binary[700:,:] = 0 
+    ```
 
 ![ScreenShot](image5.png)
 
