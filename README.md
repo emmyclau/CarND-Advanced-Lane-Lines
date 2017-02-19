@@ -116,10 +116,17 @@ dir_binary = dir_threshold(l_channel, sobel_kernel=ksize, thresh=(0.7, 1.2))
 5. Combined the color, sobel gradients and direction to create the final thresholded binary image for lane detection 
 
 ```
-    combined_binary = np.zeros_like(s_channel_binary)
-    combined_binary[(s_channel_binary == 1) | (gradx == 1) & (grady == 1) | (mag_binary == 1) & (dir_binary == 1)] = 1
+combined_binary = np.zeros_like(s_channel_binary)
+combined_binary[(s_channel_binary == 1) | (gradx == 1) & (grady == 1) | (mag_binary == 1) & (dir_binary == 1)] = 1
 ```
 
+NOTE: I also set all pixels from 700 to 719 to 0 because that is the front of car and not part of the road to avoid sun reflections on the front of the car affects the lane detection.
+
+```
+combined_binary[700:,:] = 0
+```
+
+![ScreenShot](image5.png)
 
 
 
