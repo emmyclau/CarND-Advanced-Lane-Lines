@@ -7,14 +7,13 @@ The goal of this project is to write a software pipeline to identify the lane bo
 
 ### Steps to complete this project are the following:
 1. Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
-2. Find a perspective transform matrix to create the birds-eye view of the road
-3. Apply a distortion correction to raw images.
-4. Use color transforms, gradients, etc., to create a thresholded binary image.
-5. Apply a perspective transform to rectify binary image ("birds-eye view").
-6. Detect lane pixels and fit to find the lane boundary.
-7. Determine the curvature of the lane and vehicle position with respect to center.
-8. Warp the detected lane boundaries back onto the original image.
-9. Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
+2. Apply a distortion correction to raw images.
+3. Use color transforms, gradients, etc., to create a thresholded binary image.
+4. Apply a perspective transform to rectify binary image ("birds-eye view").
+5. Detect lane pixels and fit to find the lane boundary.
+6. Determine the curvature of the lane and vehicle position with respect to center.
+7. Warp the detected lane boundaries back onto the original image.
+8. Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
 #### Step 1: Computer the camera calibration matrix and distortion coefficients given a set of chessboard images
 
@@ -58,41 +57,19 @@ ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.sh
 
 ```
 
-#### Step 2: Find a perspective transform matrix to create the birds-eye view of the road
-
-1. Next, I found the perspective transform matrix to create the birds-eye view of the road.  I drew red lines on the undistorted image and then tested different src/dst combinations to make sure the red lines were parallel after the transformation. 
-
-```
-s1 = (230, 700)
-s2 = (595, 450)
-s3 = (685, 450)
-s4 = (1082, 700)
-
-d1 = (200, 700)
-d2 = (200, 0)
-d3 = (900, 0)
-d4 = (900, 700)
-
-src = np.array([s1, s2, s3, s4], np.float32)
-dst = np.array([d1, d2, d3, d4], np.float32)
-
-M = cv2.getPerspectiveTransform(src, dst)
-Minv = cv2.getPerspectiveTransform(dst, src)
-```
-![ScreenShot](image4.png)
-
-
 ### Software pipeline to identify the lane boundaries 
 Now that I calibrated a camera and found the perspective transform matrix to transform the road to bird's eye view, it is ready to create a software pipeline to identify the lane boundaries.
 
 
-#### Step 3: Apply a distortion correction to raw images
+#### Step 2: Apply a distortion correction to raw images
 
 1. Used cv2.undistort() method to correct raw images from the camera. 
 
 ![ScreenShot](image2.png)
 
-#### Step 4: Use color transforms, gradients, etc., to create a thresholded binary image
+#### Step 3: Use color transforms, gradients, etc., to create a thresholded binary image
+
+The code for this step is contained in the 6th & 7th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
 1. I converted the undistorted image to HLS color map
 2. Next, I used the S channel to find the color thresholded binary image 
@@ -120,13 +97,47 @@ Now that I calibrated a camera and found the perspective transform matrix to tra
     combined_binary[(s_channel_binary == 1) | (gradx == 1) & (grady == 1) | (mag_binary == 1) & (dir_binary == 1)] = 1
     ```
 
-NOTE: I also set all pixels from 700 to 719 to 0 because that is the front of car and not part of the road to avoid sun reflections on the front of the car affects the lane detection.
+6. I also set all pixels from 700 to 719 to 0 because that is the front of car and not part of the road to avoid sun reflections on the front of the car affects the lane detection.
 
     ```
     combined_binary[700:,:] = 0 
     ```
 
 ![ScreenShot](image5.png)
+
+
+#### Step 4: Apply a perspective transform to rectify binary image ("birds-eye view")
+
+1. Next, I found the perspective transform matrix to create the birds-eye view of the road.  I drew red lines on the undistorted image and then tested different src/dst combinations to make sure the red lines were parallel after the transformation. 
+
+```
+s1 = (230, 700)
+s2 = (595, 450)
+s3 = (685, 450)
+s4 = (1082, 700)
+
+d1 = (200, 700)
+d2 = (200, 0)
+d3 = (900, 0)
+d4 = (900, 700)
+
+src = np.array([s1, s2, s3, s4], np.float32)
+dst = np.array([d1, d2, d3, d4], np.float32)
+
+M = cv2.getPerspectiveTransform(src, dst)
+Minv = cv2.getPerspectiveTransform(dst, src)
+```
+
+This resulted in the following source and destination points:
+
+| Source        | Destination   | 
+|:-------------:|:-------------:| 
+| 230, 700      | 200, 700      | 
+| 595, 450      | 200, 0        |
+| 685, 450      | 900, 0        |
+| 1082, 700     | 900, 700      |
+
+![ScreenShot](image4.png)
 
 
 
