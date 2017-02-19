@@ -8,12 +8,13 @@ The goal of this project is to write a software pipeline to identify the lane bo
 ### Steps to complete this project are the following:
 1. Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
 2. Apply a distortion correction to raw images.
-3. Use color transforms, gradients, etc., to create a thresholded binary image.
-4. Apply a perspective transform to rectify binary image ("birds-eye view").
-5. Detect lane pixels and fit to find the lane boundary.
-6. Determine the curvature of the lane and vehicle position with respect to center.
-7. Warp the detected lane boundaries back onto the original image.
-8. Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
+3. Find a perspective transform matrix to create the birds-eye view of the road
+4. Use color transforms, gradients, etc., to create a thresholded binary image.
+5. Apply a perspective transform to rectify binary image ("birds-eye view").
+6. Detect lane pixels and fit to find the lane boundary.
+7. Determine the curvature of the lane and vehicle position with respect to center.
+8. Warp the detected lane boundaries back onto the original image.
+9. Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
 #### Step 1: Computer the camera calibration matrix and distortion coefficients given a set of chessboard images
 
@@ -58,5 +59,37 @@ ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.sh
 ```
 
 
-
+### Software pipeline to identify the lane boundaries 
 #### Step 2: Apply a distortion correction to raw images
+
+1. Use cv2.undistort() method to correct raw images from the camera. 
+
+![ScreenShot](image2.png)
+
+
+#### Step 3: Find a perspective transform matrix to create the birds-eye view of the road
+
+1. 
+
+```
+s1 = (230, 700)
+s2 = (595, 450)
+s3 = (685, 450)
+s4 = (1082, 700)
+
+d1 = (200, 700)
+d2 = (200, 0)
+d3 = (900, 0)
+d4 = (900, 700)
+
+src = np.array([s1, s2, s3, s4], np.float32)
+dst = np.array([d1, d2, d3, d4], np.float32)
+
+M = cv2.getPerspectiveTransform(src, dst)
+Minv = cv2.getPerspectiveTransform(dst, src)
+```
+![ScreenShot](image3.png)
+
+
+
+
