@@ -69,7 +69,7 @@ ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.sh
 
 #### Step 3: Find a perspective transform matrix to create the birds-eye view of the road
 
-1. 
+1. The perspective transform allows us to change our perspective to view the same image from different view point and angles.  In this case, we transform the road image into a bird’s-eye view from above and this allow us to calculating the lane curvature later on.
 
 ```
 s1 = (230, 700)
@@ -88,7 +88,7 @@ dst = np.array([d1, d2, d3, d4], np.float32)
 M = cv2.getPerspectiveTransform(src, dst)
 Minv = cv2.getPerspectiveTransform(dst, src)
 ```
-![ScreenShot](image3.png)
+![ScreenShot](image4.png)
 
 
 
