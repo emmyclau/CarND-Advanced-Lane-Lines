@@ -97,7 +97,7 @@ The code for this step is contained in the 6th & 7th code cell of the IPython no
     combined_binary[(s_channel_binary == 1) | (gradx == 1) & (grady == 1) | (mag_binary == 1) & (dir_binary == 1)] = 1
     ```
 
-6. I also set all pixels from 700 to 719 to 0 because that is the front of car and not part of the road to avoid sun reflections on the front of the car affects the lane detection.
+6. I also set all pixels from 700 to 719 to 0 because that is the front of car and not part of the road to avoid reflection on the front of the car affects the lane detection.
 
     ```
     combined_binary[700:,:] = 0 
@@ -139,7 +139,14 @@ This resulted in the following source and destination points:
 
 ![ScreenShot](image4.png)
 
+#### Step 5: Detect lane pixels and fit to find the lane boundary
 
+
+
+
+
+
+#### Step 6. Determine the curvature of the lane and vehicle position with respect to center
 
 
 
