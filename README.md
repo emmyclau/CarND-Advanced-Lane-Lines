@@ -60,7 +60,7 @@ ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.sh
 
 #### Step 2: Find a perspective transform matrix to create the birds-eye view of the road
 
-1. The perspective transform allows us to change our perspective to view the same image from different viewpoints and angles.  In this case, we transform the road image into a bird’s-eye view from above and this allows us to calculating the lane curvature later on.
+1. Next, I found the perspective transform matrix to create the birds-eye view of the road.  I drew red lines on the undistorted image and then tested different src/dst combinations to make sure the red lines were parallel after the transformation. 
 
 ```
 s1 = (230, 700)
@@ -83,14 +83,43 @@ Minv = cv2.getPerspectiveTransform(dst, src)
 
 
 ### Software pipeline to identify the lane boundaries 
-Now that we have calibrated a camera and find the perspective transform matrix to transform the road to bird's eye view, we are ready to create a software pipeline to identify the lane boundaries.
+Now that I calibrated a camera and found the perspective transform matrix to transform the road to bird's eye view, it is ready to create a software pipeline to identify the lane boundaries.
 
 
 #### Step 3: Apply a distortion correction to raw images
 
-1. Use cv2.undistort() method to correct raw images from the camera. 
+1. Used cv2.undistort() method to correct raw images from the camera. 
 
 ![ScreenShot](image2.png)
+
+#### Step 4: Use color transforms, gradients, etc., to create a thresholded binary image
+
+1. I converted the undistorted image to HLS color map
+2. Next, I used the S channel to find the color thresholded binary image 
+
+```
+s_channel_binary = s_channel_thresh(undist, thresh=(150, 255))    
+```
+3. Next, I used L channel to find the sobel gradient x and sobel gradient y thresholded binary image
+
+```    
+gradx = abs_sobel_thresh(l_channel, orient='x', sobel_kernel=ksize, thresh=(20, 100))
+grady = abs_sobel_thresh(l_channel, orient='y', sobel_kernel=ksize, thresh=(20, 100))
+```
+4. Used L channel to find the sobel magnitude and direction thresholded binary image 
+
+```
+mag_binary = mag_thresh(l_channel, sobel_kernel=ksize, mag_thresh=(40, 100))
+dir_binary = dir_threshold(l_channel, sobel_kernel=ksize, thresh=(0.7, 1.2))
+```
+
+5. Combined the color, sobel gradients and direction to create the final thresholded binary image for lane detection 
+
+```
+    combined_binary = np.zeros_like(s_channel_binary)
+    combined_binary[(s_channel_binary == 1) | (gradx == 1) & (grady == 1) | (mag_binary == 1) & (dir_binary == 1)] = 1
+```
+
 
 
 
