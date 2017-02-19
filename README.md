@@ -28,6 +28,12 @@ The code for this step is contained in the 4th code cell of the IPython notebook
 ![ScreenShot](image1.png)
 
 ```
+nx = 9   
+ny = 6
+
+objpoints = []
+imgpoints = []
+
 # prepare object point [0,0,0], [1,0,0], [2,0,0]...[8,5,0]
 objp = np.zeros((nx * ny, 3), np.float32)
 objp[:,:2] = np.mgrid[0:9, 0:6].T.reshape(-1, 2)
