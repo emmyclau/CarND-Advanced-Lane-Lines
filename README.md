@@ -7,8 +7,8 @@ The goal of this project is to write a software pipeline to identify the lane bo
 
 ### Steps to complete this project are the following:
 1. Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
-2. Apply a distortion correction to raw images.
-3. Find a perspective transform matrix to create the birds-eye view of the road
+2. Find a perspective transform matrix to create the birds-eye view of the road
+3. Apply a distortion correction to raw images.
 4. Use color transforms, gradients, etc., to create a thresholded binary image.
 5. Apply a perspective transform to rectify binary image ("birds-eye view").
 6. Detect lane pixels and fit to find the lane boundary.
@@ -58,18 +58,9 @@ ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.sh
 
 ```
 
+#### Step 2: Find a perspective transform matrix to create the birds-eye view of the road
 
-### Software pipeline to identify the lane boundaries 
-#### Step 2: Apply a distortion correction to raw images
-
-1. Use cv2.undistort() method to correct raw images from the camera. 
-
-![ScreenShot](image2.png)
-
-
-#### Step 3: Find a perspective transform matrix to create the birds-eye view of the road
-
-1. The perspective transform allows us to change our perspective to view the same image from different view point and angles.  In this case, we transform the road image into a bird’s-eye view from above and this allow us to calculating the lane curvature later on.
+1. The perspective transform allows us to change our perspective to view the same image from different viewpoints and angles.  In this case, we transform the road image into a bird’s-eye view from above and this allows us to calculating the lane curvature later on.
 
 ```
 s1 = (230, 700)
@@ -89,6 +80,17 @@ M = cv2.getPerspectiveTransform(src, dst)
 Minv = cv2.getPerspectiveTransform(dst, src)
 ```
 ![ScreenShot](image4.png)
+
+
+### Software pipeline to identify the lane boundaries 
+#### Step 3: Apply a distortion correction to raw images
+
+1. Use cv2.undistort() method to correct raw images from the camera. 
+
+![ScreenShot](image2.png)
+
+
+
 
 
 
