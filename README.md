@@ -25,3 +25,5 @@ The code for this step is contained in the 4th code cell of the IPython notebook
 4. Use the cv2.findChessboardCorners() method to find the image points.  If the function detects the 9x6 chessboard corners, the image will be used to calibrate the camera.
 5. Pass the image points and objects points to the cv2.calibrateCamera() method to calibrate the camera
 
+![alt tag](images/image1.png)
+
