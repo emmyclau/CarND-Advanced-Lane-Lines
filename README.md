@@ -152,7 +152,7 @@ This resulted in the following source and destination points:
 
 2. If this is the first thresholded binary image, I used the blind search method to find the lane line.  The blind search method checked the histogram of the lower half of the transformed image by adding up the pixel values along each column in the image.  Two most prominent peaks in this histogram would be used of the x-position of the base of the lane lines.  Please refer to the 8th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
-    ![ScreenShot](image7.png)
+    ![ScreenShot](images/image7.png)
 
   1. Once the base of the lane lines was found, I used the sliding window method to find all the points that belong to the lane line
   2. Next, fit all the points to the np.polyfit() method to find the polynomial that represents the lane line.
