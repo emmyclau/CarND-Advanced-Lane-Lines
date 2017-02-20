@@ -113,10 +113,12 @@ s2 = (595, 450)
 s3 = (685, 450)
 s4 = (1082, 700)
 
-d1 = (290, 700)
-d2 = (290, 0)
-d3 = (990, 0)
-d4 = (990, 700)
+transformed_lane_width = 700
+
+d1 = ((img.shape[1] - transformed_lane_width)/2, 700)
+d2 = ((img.shape[1] - transformed_lane_width)/2, 0)
+d3 = ((img.shape[1] + transformed_lane_width)/2, 0)
+d4 = ((img.shape[1] + transformed_lane_width)/2, 700)
 
 src = np.array([s1, s2, s3, s4], np.float32)
 dst = np.array([d1, d2, d3, d4], np.float32)
