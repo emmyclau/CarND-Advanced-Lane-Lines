@@ -268,7 +268,7 @@ This resulted in the following source and destination points:
 
 Here is a link to the video result:
 
-    <a href="https://www.youtube.com/watch?v=Fe5toIhu0eI&feature=youtu.be" target="_blank"><imgsrc="http://img.youtube.com/vi/Fe5toIhu0eI/0.jpg" alt="Advanced Lane Lines Detection"/></a>
+<a href="https://www.youtube.com/watch?v=Fe5toIhu0eI&feature=youtu.be" target="_blank"><img src="http://img.youtube.com/vi/Fe5toIhu0eI/0.jpg" alt="Advanced Lane Lines Detection"/></a>
 
 ## Discussion 
 
