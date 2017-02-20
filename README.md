@@ -160,19 +160,19 @@ This resulted in the following source and destination points:
   
     ![ScreenShot](image8.png)
 
-3. If this is not the first thresholded binary image, I used the previously found polynomial to find all the points that are part of the lane line and created new polynomial using the newly found points. Please refer to the 9th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
+3. If this is not the first thresholded binary image, I used the previously found polynomials for the last 5 iterations to find all the points that are part of the lane line and fit these points to the np.polyfit() method to create a new polynomial. Please refer to the 9th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
     ![ScreenShot](image9.png)
 
 
 #### Step 6. Determine the curvature of the lane and vehicle position with respect to center
 
-
+1. Based on the polynomials found in Step 5, I calculated the curvature of the lane 
 
 
 #### Step 7. Warp the detected lane boundaries back onto the original image
 
-4. After detecting the lane lines, I checked whether the detection makes sense.   Please refer to the 11th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
+1. Before warpping the detected lane boundaries back to the original image, I checked whether the detection makes sense.   Please refer to the 11th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
   1. Checked lane lines to 
 
