@@ -1,4 +1,4 @@
-# Assignment-4: CarND-Advanced-Lane-Lines
+# Term-1 Assignment-4: CarND-Advanced-Lane-Lines
 
 ## Advanced Lane Finding Project
 
@@ -260,13 +260,13 @@ This resulted in the following source and destination points:
 
 1. I used average values over the last 5 successfully detected lane lines to find the lane curvature and the lane lines to warp back onto the original image. Please refer to the 12th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
-    Here is an example of the detected line line:
+    Here is an example of the detected lane boundaries:
     ![ScreenShot](image10.png)
 
 
 ## Pipeline (Video) 
 
-[Here is a link to the video result](https://www.google.com)
+[Here is a link to the video result](https://youtu.be/Fe5toIhu0eI)
 
 
 ## Discussion 
