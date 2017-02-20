@@ -272,6 +272,8 @@ Here is a link to the video result:
 
 ## Discussion 
 
-1. The pipeline has problem detecting lane lines if there is a high color contrast or shadow of the road.  
+1. Selecting the threshold value for color and sobel gradient is challenging.  While S channel maybe better, it still has problems when there is high contrast of the road or when there is shadow on the road.  Therefore, I have to set a higher threshold for the S channel.  In order to compensate for the lost of information, I used the L channel for the sobel absolute gradient, magitude gradient and gradient direction.  I found that L channel did a better job than using gray image to add information while filtering noise because of white / light color on the road. For this reason, the pipeline cannot detect the lane lines clearly for the challenge video and harder challenge video.  
 
+2. The curvature of the lane lines vary significantly with some noises in the lane line detection.  This method may not be the best way to find the curvation of the lane lines. 
 
+3. No all road has marked lane lines, in those cases, this method cannot be used to detect the lane lines.  Read some comment from other classmates, it maybe better to train a neural network to detect these lane lines. 
