@@ -97,7 +97,7 @@ The code for this step is contained in the 6th & 7th code cell of the IPython no
     combined_binary[(s_channel_binary == 1) | (gradx == 1) & (grady == 1) | (mag_binary == 1) & (dir_binary == 1)] = 1
     ```
 
-6. I also set all pixels from 700 to 719 to 0 because that is the front of car and not part of the road to avoid reflection on the front of the car affects the lane detection.
+6. I also set all pixels from rows 700 to 719 to 0 because that is the front of car and not part of the road to avoid reflection on the front of the car affects the lane line detection.
 
     ```
     combined_binary[700:,:] = 0 
@@ -141,9 +141,26 @@ This resulted in the following source and destination points:
 
 #### Step 5: Detect lane pixels and fit to find the lane boundary
 
+1. In the last step of Step 3, I removed all pixels of the thresholded binary image from row 700 to 719 to avoid pixels detected with the front of the car.  Here, I added back the pixels to the transformed thresholded binary image based on the averaged x values of the transformed images at row 700 from the last 5 iterations.  If this is the first thresholded binary image, no pixel was added. 
 
+    ```
+    if (left_lane.bestx != None) and (right_lane.bestx != None):
+        binary_warped[700:,left_lane.bestx-5:left_lane.bestx+5] = 1
+        binary_warped[700:,right_lane.bestx-5:right_lane.bestx+5] = 1
+    ```
+    
+    ![ScreenShot](image6.png)
 
+2. If this is the first thresholded binary image, I used the blind search method to find the lane line.  The blind search method checked the histogram of the lower half of the transformed image by adding up the pixel values along each column in the image.  Two most prominent peaks in this histogram would be used of the x-position of the base of the lane lines.
 
+    ![ScreenShot](image7.png)
+
+  1. Once the base of the lane lines were found, I used the sliding window method to find all the points that are part of the lane lines 
+  2. Next, fit all the points to the np.polyfit() method to find the polynomial that represents the lane line.
+  
+    ![ScreenShot](image8.png)
+
+3. If this is not the first thresholded binary image, I used the previously 
 
 
 
