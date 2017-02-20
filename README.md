@@ -203,18 +203,19 @@ This resulted in the following source and destination points:
 
 1. Before warpping the detected lane boundaries back to the original image, I did a sanity check to see if the detection makes sense.   Please refer to the 11th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
+
   1. Checked the curvature of the detected lane lines to see if they are in the ball-park.  If the curvature was bigger than 700, I found that the chances the 2 lane lines differ significantly were very high.  So, I skipped checking if the samller of the 2 curvatures was bigger than 700.  For curvature smaller than 700, if they differed by more than 300 meters, the detection was considered as failed. 
  
-  ```
+    ```
       if (np.min([left_lane.radius_of_curvature, right_lane.radius_of_curvature]) < 700) & \
         (np.abs(left_lane.radius_of_curvature - right_lane.radius_of_curvature) > 300):
         return False  
-  ```
+    ```
   
   
   2. Checked the horizontal distance between the 2 lane lines. If any horizontal distances between the 2 lane lines are more than 100, the detection was considered as failed. 
   
-  ```
+    ```
     left_fit = left_lane.current_fit
     right_fit = right_lane.current_fit
     
@@ -227,10 +228,11 @@ This resulted in the following source and destination points:
     #print(np.max(dist), np.min(dist))
     if (np.max(dist) - np.min(dist)) > 100:
         return False
-  ```
+    ```
+    
   3. If the sanity check was successful, the detected lane lines will be added to the list of recent measurements for calculating the average values over the last 5 frames of video to obtain a cleaner result for drawing  
   
-  ```
+    ```
     # add the left_fitx at 700 to the recent_fitx
     left_lane.recent_xfitted.append(left_fitx[700])
     right_lane.recent_xfitted.append(right_fitx[700])
@@ -246,7 +248,7 @@ This resulted in the following source and destination points:
     # find the best fits over the last 5 iterations  
     left_lane.best_fit = np.average(left_lane.all_fits[-5:], axis=0)
     right_lane.best_fit = np.average(right_lane.all_fits[-5:], axis=0)
-  ```
+    ```
 
 4. If the sanity check failed and the sanity check of the last lane lines detection was successful, I used the the average values over the last 5 frames of video for drawing  
 
