@@ -151,25 +151,29 @@ This resulted in the following source and destination points:
     
     ![ScreenShot](image6.png)
 
-2. If this is the first thresholded binary image, I used the blind search method to find the lane line.  The blind search method checked the histogram of the lower half of the transformed image by adding up the pixel values along each column in the image.  Two most prominent peaks in this histogram would be used of the x-position of the base of the lane lines.
+2. If this is the first thresholded binary image, I used the blind search method to find the lane line.  The blind search method checked the histogram of the lower half of the transformed image by adding up the pixel values along each column in the image.  Two most prominent peaks in this histogram would be used of the x-position of the base of the lane lines.  Please refer to the 8th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
     ![ScreenShot](image7.png)
 
-  1. Once the base of the lane lines were found, I used the sliding window method to find all the points that are part of the lane lines 
+  1. Once the base of the lane lines was found, I used the sliding window method to find all the points that belong to the lane line
   2. Next, fit all the points to the np.polyfit() method to find the polynomial that represents the lane line.
   
     ![ScreenShot](image8.png)
 
-3. If this is not the first thresholded binary image, I used the previously 
+3. If this is not the first thresholded binary image, I used the previously found polynomial to find all the points that are part of the lane line and created new polynomial using the newly found points. Please refer to the 9th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
-
-
-
+    ![ScreenShot](image9.png)
 
 
 #### Step 6. Determine the curvature of the lane and vehicle position with respect to center
 
 
 
+
+#### Step 7. Warp the detected lane boundaries back onto the original image
+
+4. After detecting the lane lines, I checked whether the detection makes sense.   Please refer to the 11th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
+
+  1. Checked lane lines to 
 
 
