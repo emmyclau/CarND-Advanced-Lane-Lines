@@ -227,7 +227,7 @@ This resulted in the following source and destination points:
         return False
     ```
     
-  3. If the sanity check was successful, the detected lane lines will be added to the list of recent measurements for calculating the average values over the last 5 succeesfully detected lane lines to obtain a cleaner result for drawing  
+  3. If the sanity check was successful, the detected lane lines will be added to the list of recent measurements for calculating the average values over the last 5 successfully detected lane lines to obtain a cleaner result for drawing  
   
     ```
     # add the left_fitx at 700 to the recent_fitx
@@ -258,7 +258,7 @@ This resulted in the following source and destination points:
 
 #### Step 8. Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position
 
-1. I used average values over the last 5 succeesfully detected lane lines to find the lane curvature and the lane lines to warp back onto the original image. Please refer to the 12th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
+1. I used average values over the last 5 successfully detected lane lines to find the lane curvature and the lane lines to warp back onto the original image. Please refer to the 12th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
     Here is an example of the detected line line:
     ![ScreenShot](image10.png)
@@ -271,4 +271,6 @@ This resulted in the following source and destination points:
 
 ## Discussion 
 
-1. The pipeline has problem detecting lane lines if there is a high color contrast of the road.  The saturation channel of the HLS color map fails to distinguish the  
+1. The pipeline has problem detecting lane lines if there is a high color contrast or shadow of the road.  
+
+
