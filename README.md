@@ -167,13 +167,101 @@ This resulted in the following source and destination points:
 
 #### Step 6. Determine the curvature of the lane and vehicle position with respect to center
 
-1. Based on the polynomials found in Step 5, I calculated the curvature of the lane 
+1. To determine the curvature of the detected lane line, I used the detected points from the Step 5 multiply by the meters per pixel in both x and y dimensions to converting the x and y values to real world space. Please refer to the 10th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
+    ```
+    # Define conversions in x and y from pixels space to meters
+    ym_per_pix = 30/720 # meters per pixel in y dimension
+    xm_per_pix = 3.7/700 # meters per pixel in x dimension
+    
+    leftx = left_lane.allx
+    lefty = left_lane.ally
+    rightx = right_lane.allx
+    righty = right_lane.ally
+    
+    left_fit_cr = np.polyfit(lefty*ym_per_pix, leftx*xm_per_pix, 2)
+    right_fit_cr = np.polyfit(righty*ym_per_pix, rightx*xm_per_pix, 2)
+    ```
+2. Then I calcuated the curvature of the detected left and right lane lines
+    ```
+    y_eval = 720
+    # Calculate the new radii of curvature
+    left_lane.radius_of_curvature = ((1 + (2*left_fit_cr[0]*y_eval*ym_per_pix + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
+    right_lane.radius_of_curvature = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
+    ```
+ 
+3. To calculate the position of the vehicle position with respect to center, I calculated during the Step 5 during lane lines detection. I  have changed the definition of the variable line_base_pos in the class Line to means the distance in meters of vehicle center from the center of the lane. Please refer to the 8th & 9th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
+
+    ```
+    # Find distance in meters of vehicle center from the center of the lane
+    left_lane.line_base_pos = (leftx_base + rightx_base - 1280)/2 * 3.7/700
+    right_lane.line_base_pos = (leftx_base + rightx_base - 1280)/2 * 3.7/700
+    
+    ```
 
 #### Step 7. Warp the detected lane boundaries back onto the original image
 
-1. Before warpping the detected lane boundaries back to the original image, I checked whether the detection makes sense.   Please refer to the 11th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
+1. Before warpping the detected lane boundaries back to the original image, I did a sanity check to see if the detection makes sense.   Please refer to the 11th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
-  1. Checked lane lines to 
+  1. Checked the curvature of the detected lane lines to see if they are in the ball-park.  If the curvature was bigger than 700, I found that the chances the 2 lane lines differ significantly were very high.  So, I skipped checking if the samller of the 2 curvatures was bigger than 700.  For curvature smaller than 700, if they differed by more than 300 meters, the detection was considered as failed. 
+ 
+  ```
+      if (np.min([left_lane.radius_of_curvature, right_lane.radius_of_curvature]) < 700) & \
+        (np.abs(left_lane.radius_of_curvature - right_lane.radius_of_curvature) > 300):
+        return False  
+  ```
+  
+  
+  2. Checked the horizontal distance between the 2 lane lines. If any horizontal distances between the 2 lane lines are more than 100, the detection was considered as failed. 
+  
+  ```
+    left_fit = left_lane.current_fit
+    right_fit = right_lane.current_fit
+    
+    # check the horizontal distance 
+    ploty = np.linspace(0, 719, num=720)
+    left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+    right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+    
+    dist = abs(left_fitx - right_fitx)
+    #print(np.max(dist), np.min(dist))
+    if (np.max(dist) - np.min(dist)) > 100:
+        return False
+  ```
+  3. If the sanity check was successful, the detected lane lines will be added to the list of recent measurements for calculating the average values over the last 5 frames of video to obtain a cleaner result for drawing  
+  
+  ```
+    # add the left_fitx at 700 to the recent_fitx
+    left_lane.recent_xfitted.append(left_fitx[700])
+    right_lane.recent_xfitted.append(right_fitx[700])
+    
+    # find the best x position at 700
+    left_lane.bestx = np.average(left_lane.recent_xfitted[-5:])
+    right_lane.bestx = np.average(right_lane.recent_xfitted[-5:])
+    
+    # add the fits to the list
+    left_lane.all_fits.append(left_lane.current_fit)
+    right_lane.all_fits.append(right_lane.current_fit)
+     
+    # find the best fits over the last 5 iterations  
+    left_lane.best_fit = np.average(left_lane.all_fits[-5:], axis=0)
+    right_lane.best_fit = np.average(right_lane.all_fits[-5:], axis=0)
+  ```
+
+4. If the sanity check failed and the sanity check of the last lane lines detection was successful, I used the the average values over the last 5 frames of video for drawing  
+
+5. If the sanity check failed and the sanity check of the last lane lines detection was also not successful, I would perform another round of blind search method mentioned in Step 5 to detect the lane lines.  
+
+  1. If the lane lines detection was successful this time, the detected lane lines would be added to the list of recent measurement similar to 3. in the current step. 
+  
+  2. If the lane lines detection failed again, I used the the average values over the last 5 frames of video for drawing. 
 
 
+#### Step 8. Warp the detected lane boundaries back onto the original image
+
+
+
+
+## Discussion 
+
+1. The pipeline has problem detecting lane lines if there is a high color contrast of the road.  The saturation channel of the HLS color map fails to distinguish the  
