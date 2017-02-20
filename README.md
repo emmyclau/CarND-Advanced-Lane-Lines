@@ -25,7 +25,7 @@ The code for this step is contained in the 4th code cell of the IPython notebook
 4. Use the cv2.findChessboardCorners() method to find the image points.  If the function detects the 9x6 chessboard corners, the image will be used to calibrate the camera.
 5. Pass the detected image points and objects points for all calibration images to the cv2.calibrateCamera() method to calibrate the camera
 
-    ![ScreenShot](image1.png)
+    ![ScreenShot](images/image1.png)
 
 ```
 nx = 9   
@@ -62,7 +62,7 @@ ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.sh
 
 1. Used cv2.undistort() method to correct raw images from the camera. 
 
-![ScreenShot](image2.png)
+![ScreenShot](images/image2.png)
 
 #### Step 3: Use color transforms, gradients, etc., to create a thresholded binary image
 
@@ -100,7 +100,7 @@ The code for this step is contained in the 6th & 7th code cell of the IPython no
     combined_binary[700:,:] = 0 
     ```
 
-![ScreenShot](image5.png)
+![ScreenShot](images/image5.png)
 
 
 #### Step 4: Apply a perspective transform to rectify binary image ("birds-eye view")
@@ -136,7 +136,7 @@ This resulted in the following source and destination points:
 | 685, 450      | 990, 0        |
 | 1082, 700     | 990, 700      |
 
-![ScreenShot](image4.png)
+![ScreenShot](images/image4.png)
 
 #### Step 5: Detect lane pixels and fit to find the lane boundary
 
@@ -148,7 +148,7 @@ This resulted in the following source and destination points:
         binary_warped[700:,right_lane.bestx-5:right_lane.bestx+5] = 1
     ```
     
-    ![ScreenShot](image6.png)
+    ![ScreenShot](images/image6.png)
 
 2. If this is the first thresholded binary image, I used the blind search method to find the lane line.  The blind search method checked the histogram of the lower half of the transformed image by adding up the pixel values along each column in the image.  Two most prominent peaks in this histogram would be used of the x-position of the base of the lane lines.  Please refer to the 8th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
@@ -157,11 +157,11 @@ This resulted in the following source and destination points:
   1. Once the base of the lane lines was found, I used the sliding window method to find all the points that belong to the lane line
   2. Next, fit all the points to the np.polyfit() method to find the polynomial that represents the lane line.
   
-    ![ScreenShot](image8.png)
+    ![ScreenShot](images/image8.png)
 
 3. If this is not the first thresholded binary image, I used the previously found polynomials for the last 5 iterations to find all the points that are part of the lane line and fit these points to the np.polyfit() method to create a new polynomial. Please refer to the 9th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
-    ![ScreenShot](image9.png)
+    ![ScreenShot](images/image9.png)
 
 
 #### Step 6. Determine the curvature of the lane and vehicle position with respect to center
@@ -263,7 +263,7 @@ This resulted in the following source and destination points:
 1. I used average values over the last 5 successfully detected lane lines to find the lane curvature and the lane lines to warp back onto the original image. Please refer to the 12th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
     Here is an example of the detected lane boundaries:
-    ![ScreenShot](image10.png)
+    ![ScreenShot](images/image10.png)
 
 
 ## Pipeline (Video) 
