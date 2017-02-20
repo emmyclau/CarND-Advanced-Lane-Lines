@@ -230,7 +230,7 @@ This resulted in the following source and destination points:
         return False
     ```
     
-  3. If the sanity check was successful, the detected lane lines will be added to the list of recent measurements for calculating the average values over the last 5 frames of video to obtain a cleaner result for drawing  
+  3. If the sanity check was successful, the detected lane lines will be added to the list of recent measurements for calculating the average values over the last 5 succeesfully detected lane lines to obtain a cleaner result for drawing  
   
     ```
     # add the left_fitx at 700 to the recent_fitx
@@ -261,6 +261,10 @@ This resulted in the following source and destination points:
 
 #### Step 8. Warp the detected lane boundaries back onto the original image
 
+1. I used average values over the last 5 succeesfully detected lane lines to find the lane curvature and the lane lines to warp back onto the original image. Please refer to the 12th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
+
+    Here is an example of the detected line line:
+    ![ScreenShot](image10.png)
 
 
 
