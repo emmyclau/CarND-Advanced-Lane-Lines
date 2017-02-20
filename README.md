@@ -57,9 +57,6 @@ ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.sh
 
 ```
 
-### Software pipeline to identify the lane boundaries 
-Now that I calibrated a camera and found the perspective transform matrix to transform the road to bird's eye view, it is ready to create a software pipeline to identify the lane boundaries.
-
 
 #### Step 2: Apply a distortion correction to raw images
 
@@ -259,13 +256,17 @@ This resulted in the following source and destination points:
   2. If the lane lines detection failed again, I used the the average values over the last 5 frames of video for drawing. 
 
 
-#### Step 8. Warp the detected lane boundaries back onto the original image
+#### Step 8. Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position
 
 1. I used average values over the last 5 succeesfully detected lane lines to find the lane curvature and the lane lines to warp back onto the original image. Please refer to the 12th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
     Here is an example of the detected line line:
     ![ScreenShot](image10.png)
 
+
+## Pipeline (Video) 
+
+[Here is a link to the video result](https://www.google.com)
 
 
 ## Discussion 
