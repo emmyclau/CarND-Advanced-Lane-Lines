@@ -157,7 +157,7 @@ This resulted in the following source and destination points:
   1. Once the base of the lane lines was found, I used the sliding window method to find all the points that belong to the lane line
   2. Next, fit all the points to the np.polyfit() method to find the polynomial that represents the lane line.
   
-    ![ScreenShot](images/image8.png)
+    ![ScreenShot](images/image9.png)
 
 3. If this is not the first thresholded binary image, I used the previously found polynomials for the last 5 iterations to find all the points that are part of the lane line and fit these points to the np.polyfit() method to create a new polynomial. Please refer to the 9th code cell of the IPython notebook located in "./advanced_lane_lines_for_submission.ipynb".
 
